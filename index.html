@@ -1,11 +1,16 @@
 <!DOCTYPE html>
-<html lang="en-us">
+<html lang="ru">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Unity Web Player | DuckPit</title>
+    <title>DuckPit — Акт I «Яма просыпается»</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
+    <style>
+      html, body { margin: 0; height: 100%; background: #1d1838; overflow: hidden; }
+      #unity-footer { display: none; }
+      #unity-container.unity-desktop { left: 50%; top: 50%; transform: translate(-50%, -50%); }
+    </style>
   </head>
   <body>
     <div id="unity-container" class="unity-desktop">
@@ -92,7 +97,7 @@
       // If you would like all file writes inside Unity Application.persistentDataPath
       // directory to automatically persist so that the contents are remembered when
       // the user revisits the site the next time, uncomment the following line:
-      // config.autoSyncPersistentDataPath = true;
+      config.autoSyncPersistentDataPath = true;
       // This autosyncing is currently not the default behavior to avoid regressing
       // existing user projects that might rely on the earlier manual
       // JS_FileSystem_Sync() behavior, but in future Unity version, this will be
@@ -115,8 +120,17 @@
 
       } else {
         // Desktop style: Render the game canvas container in a window that can be maximized to fullscreen:
-        fullscreenContainer.style.width = "540px";
-        fullscreenContainer.style.height = "960px";
+        // portrait 9:16, as large as the window allows
+        function fitPortrait() {
+          var h = Math.floor(Math.min(window.innerHeight, window.innerWidth * 16 / 9));
+          var w = Math.floor(h * 9 / 16);
+          fullscreenContainer.style.width = w + "px";
+          fullscreenContainer.style.height = h + "px";
+          canvas.style.width = w + "px";
+          canvas.style.height = h + "px";
+        }
+        fitPortrait();
+        window.addEventListener("resize", fitPortrait);
       }
 
 
